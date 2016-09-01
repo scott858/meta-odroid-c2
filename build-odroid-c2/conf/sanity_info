@@ -1,0 +1,3 @@
+SANITY_VERSION 1
+TMPDIR /home/scott/Qt/5.7/Boot2Qt/sources/meta-b2qt/build-odroid-c2/tmp
+SSTATE_DIR /home/scott/Qt/5.7/Boot2Qt/sources/meta-b2qt/build-odroid-c2/../sstate-cache
