@@ -1,0 +1,4 @@
+build-*/tmp
+build-*/cache
+build-*/download
+.repo
