@@ -1,0 +1,92 @@
+
+qtPrepareTool(QTQUICK_COMPILER, qtquickcompiler, _FILTER)
+qtPrepareTool(QMAKE_RCC, rcc, _DEP)
+
+QTQUICKC_DIR = .qtquickcompiler
+
+defineReplace(qtQuickResourceFileOutputName) {
+    name = $$relative_path($$1, $$_PRO_FILE_PWD_)
+    name = $$replace(name,/,_)
+    name = $$replace(name, \\.qrc$, _qtquickcompiler.qrc)
+    name = $$replace(name,\.\.,)
+    name = $$replace(name,-,_)
+    name = $$absolute_path($$name, $$OUT_PWD)
+    return($${name})
+}
+
+# Flatten RESOURCES that may contain individual files or objects
+load(resources)
+
+NEWRESOURCES =
+QTQUICK_COMPILER_RESOURCE_FILES =
+
+for(res, RESOURCES) {
+    absRes = $$absolute_path($$res, $$_PRO_FILE_PWD_)
+    rccContents = $$system($$QMAKE_RCC_DEP -list $$absRes,lines)
+    contains(rccContents,.*\\.js$)|contains(rccContents,.*\\.qml$) {
+        new_resource = $$qtQuickResourceFileOutputName($$res)
+        mkpath($$dirname(new_resource))
+        remaining_files = $$system($$QTQUICK_COMPILER_FILTER -filter-resource-file $$absRes $$new_resource,lines)
+        !isEmpty(remaining_files) {
+            NEWRESOURCES += $$new_resource
+            QTQUICK_COMPILER_LOADER_FLAGS += --resource-file-mapping=$$absRes=$$new_resource
+        } else {
+            QTQUICK_COMPILER_LOADER_FLAGS += --resource-file-mapping=$$absRes
+        }
+
+        QTQUICK_COMPILER_RESOURCE_FILES += $$absRes
+
+        for(candidate, $$list($$rccContents)) {
+            contains(candidate,.*\\.js$)|contains(candidate,.*\\.qml$) {
+                QTQUICK_COMPILER_FILES += $$candidate
+            }
+        }
+    } else {
+        NEWRESOURCES += $$res
+    }
+}
+
+RESOURCES = $$NEWRESOURCES
+
+QTQUICK_COMPILER_RESOURCE_FLAGS =
+for(res, QTQUICK_COMPILER_RESOURCE_FILES) {
+    QTQUICK_COMPILER_RESOURCE_FLAGS += --resource=$$res
+}
+
+!isEmpty(QTQUICK_COMPILER_FILES) {
+    QT_PRIVATE *= core-private qml-private
+}
+
+defineReplace(qtQuickCompilerOutputName) {
+    name = $$absolute_path($$1, $$OUT_PWD)
+    name = $$relative_path($$name, $$_PRO_FILE_PWD_)
+    name = $$replace(name, \\.qml$, _qml)
+    name = $$replace(name, \\.js$, _js)
+    name = $$replace(name,/,_)
+    name = $$QTQUICKC_DIR/$${name}
+    return($${name})
+}
+
+qtquickcompiler.input = QTQUICK_COMPILER_FILES
+qtquickcompiler.output = ${QMAKE_FUNC_FILE_IN_qtQuickCompilerOutputName}$${first(QMAKE_EXT_CPP)}
+qtquickcompiler.commands = $$QTQUICK_COMPILER $$QTQUICK_COMPILER_RESOURCE_FLAGS $$QTQUICK_COMPILER_FLAGS ${QMAKE_FILE_IN} ${QMAKE_FILE_OUT}
+qtquickcompiler.name = qtquickcompiler ${QMAKE_FILE_IN}
+qtquickcompiler.variable_out = GENERATED_SOURCES
+qtquickcompiler.dependency_type = TYPE_C
+
+qtquickcompiler_loader.input = QTQUICK_COMPILER_RESOURCE_FILES
+qtquickcompiler_loader.output = $$QTQUICKC_DIR/qtquickcompiler_loader.cpp
+qtquickcompiler_loader.commands = $$QTQUICK_COMPILER $$QTQUICK_COMPILER_LOADER_FLAGS $$QTQUICK_COMPILER_FLAGS ${QMAKE_FILE_IN} ${QMAKE_FILE_OUT}
+qtquickcompiler_loader.name = qtquickcompiler_loader ${QMAKE_FILE_IN}
+qtquickcompiler_loader.variable_out = SOURCES
+qtquickcompiler_loader.dependency_type = TYPE_C
+qtquickcompiler_loader.CONFIG = combine
+
+unix:!no_qtquickcompiler_depend {
+    compiler_bin = $$[QT_HOST_BINS]/qtquickcompiler
+    contains(QMAKE_HOST.os, Windows): compiler_bin = $${compiler_bin}.exe
+    qtquickcompiler.depends += $$compiler_bin
+    qtquickcompiler_loader.depends += $$compiler_bin
+}
+
+QMAKE_EXTRA_COMPILERS += qtquickcompiler qtquickcompiler_loader

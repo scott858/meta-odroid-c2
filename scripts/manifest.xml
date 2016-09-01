@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <default sync-j="4" revision="dizzy"/>
+
+  <remote fetch="git://git.yoctoproject.org" name="yocto"/>
+  <remote fetch="git://git.openembedded.org" name="oe"/>
+  <remote fetch="git://github.com/Freescale" name="freescale"/>
+  <remote fetch="git://github.com/beagleboard" name="beagleboard"/>
+  <remote fetch="git://git.toradex.com" name="toradex"/>
+  <remote fetch="git://github.com/architech-boards" name="architech"/>
+  <remote fetch="git://github.com/meta-qt5" name="meta-qt5"/>
+  <remote fetch="http://codereview.qt-project.org/yocto" name="qtyocto"/>
+  <remote fetch="git://git.yoctoproject.org" name="intel"/>
+  <remote fetch="git://github.com/openembedded" name="oe-mirror"/>
+  <remote fetch="ssh://git@git.qt.io/boot2qt" name="playground"/>
+
+  <project name="poky"
+           remote="yocto"
+           revision="b1f23d1254682866236bfaeb843c0d8aa332efc2"
+           path="sources/poky"/>
+  <project name="meta-openembedded"
+           remote="oe-mirror"
+           revision="dc5634968b270dde250690609f0015f881db81f2"
+           path="sources/meta-openembedded"/>
+  <project name="meta-qt5"
+           remote="qtyocto"
+           revision="2746cdba75f411541d80ddfd5cadad2753fe29d3"
+           path="sources/meta-qt5"/>
+  <project name="meta-mingw"
+           remote="qtyocto"
+           path="sources/meta-mingw"
+           revision="bf2d66bbb26afbf4c22744af925daa53f61d98e1"/>
+
+  <project name="meta-fsl-arm"
+           remote="yocto"
+           revision="8d22b44716fa624ff87383c36d222d9e28d0b267"
+           path="sources/meta-fsl-arm"
+           groups="notdefault,external,fsl,toradex,architech,ti,bbb,smx6,renesas"/>
+  <project name="meta-ti"
+           remote="yocto"
+           revision="0da13d5a37a9d40ad6e41fe5eeeb532fef795a7a"
+           path="sources/meta-ti"
+           groups="notdefault,external,ti,bbb"/>
+  <project name="meta-raspberrypi"
+           remote="yocto"
+           revision="e82417d33b8147f65141ef937d56735d80ee7207"
+           path="sources/meta-raspberrypi"
+           groups="notdefault,external,rpi"/>
+  <project name="meta-fsl-arm-extra"
+           remote="freescale"
+           revision="8fdde39f732be9e1ee9505a04c579073114459e7"
+           path="sources/meta-fsl-arm-extra"
+           groups="notdefault,external,fsl,toradex,architech,smx6"/>
+  <project name="meta-beagleboard"
+           remote="beagleboard"
+           revision="b5c709b2b6bd3bf236df923fa8f245a00fbb1b60"
+           path="sources/meta-beagleboard"
+           groups="notdefault,external,bbb"/>
+  <project name="meta-toradex"
+           remote="toradex"
+           revision="eca5937408c75a997b160bd1b92e1496b07421cf"
+           path="sources/meta-toradex"
+           groups="notdefault,external,toradex"/>
+  <project name="meta-tibidabo"
+           remote="architech"
+           revision="06c6b09e0776507e1230aa98b5ca10d9d3968286"
+           path="sources/meta-tibidabo"
+           groups="notdefault,external,architech"/>
+  <project name="meta-intel"
+           remote="intel"
+           revision="4e87c59bdedaa8c3e44fc02fd23be726c4d1dfb9"
+           path="sources/meta-intel"
+           groups="notdefault,external,intel"/>
+  <project name="meta-renesas"
+           remote="yocto"
+           revision="b7843bd6a2835e5199cab9ba196c5e67b15acaed"
+           path="sources/meta-renesas"
+           groups="notdefault,external,renesas"/>
+
+  <project name="nvidia-layer"
+           remote="playground"
+           revision="38c9b1d76037ff39b9e0cbd679b3e04b36c86ed7"
+           path="sources/nvidia-layer"
+           groups="notdefault,internal"/>
+  <project name="jetson-tk1-pro"
+           remote="playground"
+           revision="a376c795d5361fda4ea5f19feecc23ab7e753646"
+           path="sources/jetson-tk1-pro"
+           groups="notdefault,internal"/>
+  <project name="vibrante-t186"
+           remote="playground"
+           revision="edc10bf3f4b17333021f85e9ad32f85838e2c33f"
+           path="sources/vibrante-t186"
+           groups="notdefault,internal"/>
+  <project name="meta-smx6"
+           remote="playground"
+           revision="c2f639ef4b2fd5809ab95fb330d28c2716aa290d"
+           path="sources/meta-smx6"
+           groups="notdefault,internal"/>
+  <project name="renesas-rcar-gen2"
+           remote="playground"
+           revision="93b2464ca1c6200a1bdf2afcabac0c2c7e9bdf6d"
+           path="sources/renesas-rcar-gen2"
+           groups="notdefault,internal"/>
+
+</manifest>
+
