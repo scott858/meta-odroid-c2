@@ -5,3 +5,6 @@ build-*/bitbake.lock
 downloads
 sstate-cache
 .repo
+repo
+setup-environment.sh
+
